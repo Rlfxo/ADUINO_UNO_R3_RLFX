@@ -1,7 +1,9 @@
-const int AirValue = 505;
-const int WaterValue = 260;
-int intervals = (AirValue - WaterValue)/3;
+#define AIR (505)
+#define WATER (260)
+#define INTERVAL (AIR - WATER)
+
 int soilMoistureValue = 0;
+double val = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -10,18 +12,12 @@ void setup() {
 void loop() {
   soilMoistureValue = analogRead(A0);
 
-  if(soilMoistureValue > WaterValue && soilMoistureValue < (WaterValue + intervals))
-  {
-    Serial.println("Very Wet");
-  }
-  else if(soilMoistureValue > (WaterValue + intervals) && soilMoistureValue < (AirValue - intervals))
-  {
-    Serial.println("Wet");
-  }
-  else if(soilMoistureValue < AirValue && soilMoistureValue > (AirValue - intervals))
-  {
-    Serial.println("Dry");
-  }
-  
+  val = (AIR - soilMoistureValue);
+  val < 0 ? val *= -1 : val *= 1;
+  val /= INTERVAL;
+
+  Serial.print(val*100);
+  Serial.println("%");
+
   delay(100);
 }
